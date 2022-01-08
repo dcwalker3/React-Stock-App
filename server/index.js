@@ -19,10 +19,12 @@ const db_name = process.env.DB_NAME;
 // Route imports
 const users = require('./Routes/User');
 const stocks = require('./Routes/Stocks');
+const portfolio = require('./Routes/Portolio');
 
 // Include routes to apps.
 app.use('/users', users);
 app.use('/stock', stocks);
+app.use('/portfolio', portfolio);
 
 // Tell server to listen on port.
 app.listen(port, () => {

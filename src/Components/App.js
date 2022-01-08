@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 
 // Custom Components.
-import {AuthProvider} from "../Context/AuthContext";
+import {AuthProvider, useAuth} from "../Context/AuthContext";
 import PrivateRoute from "./PrivateRoute";
 import Login from "./Login";
 import Signup from "./Signup";
@@ -19,14 +19,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "../StyleSheets/Forms.css";
 import "../StyleSheets/Index.css";
 import ForgotPassword from "./ForgotPassword";
+import Dashboard from "./Dashboard";
 
 function App() {
+
+
   return (
     <div className="App">
       <Router>
           <AuthProvider>
               <Switch>
-                  <PrivateRoute exact path={"/"} component={SuperSecret}/>
+                  <PrivateRoute exact path={"/"} component={Dashboard}/>
                   <Route path={"/home"} component={Home}/>
                   <Route path={"/login"} component={Login}/>
                   <Route path={"/signup"} component={Signup}/>
@@ -44,10 +47,6 @@ function Home(){
         )
 }
 
-function SuperSecret(){
-        return(
-            <h1>This is a Secret!!!!</h1>
-        )
-};
+
 
 export default App;

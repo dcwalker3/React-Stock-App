@@ -1,0 +1,57 @@
+const express = require('express');
+const router = express.Router();
+
+const Portfolio  = require("../Schemas/Portfolio.schema");
+
+router.get("/getAll", (req, res) => {
+    Portfolio.find({})
+        .then(results => res.status(200).json(results))
+        .catch(error => res.status(404).json({error: error}))
+})
+
+router.get('/getByEmail', ((req, res) => {
+    // Query MongoDB based off email we receive.
+    Portfolio.findOne({email: req.body.email}, function (error, results) {
+        // Error Handling
+        if(error){
+            res.status(404).json({error: error});
+        }
+        // Send the portfolio.
+        else {
+          res.status(200).json(results.portfolio);
+        }
+    })
+
+}))
+
+router.post('/add', (req, res) => {
+    // Create Portfolio
+    const portfolio = new Portfolio({
+        // JSON we receive.
+        email: req.body.email,
+        portfolio: req.body.portfolio
+    });
+
+    // Save Portfolio
+    portfolio.save(function (err) {
+
+        // If there is an error.
+        if(err){
+
+            // If duplicate entry error.
+            // error code 11000 can be others involving key indexing, but this is the most common.
+            if (err.code === 11000){
+                return res.status(500).json("User already has a portfolio!");
+            }
+
+            // Other errors.
+            return res.status(404).json({error: err});
+        }
+        // No errors then all clear.
+        else {
+            return res.status(200).json(`User ${portfolio.email}'s Portfolio has been Added!`)
+        }
+    })
+});
+
+module.exports = router;
