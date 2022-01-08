@@ -1,0 +1,19 @@
+.FormInput{
+    display: flow;
+    width: 40%;
+    height: 25%;
+    border-radius: 15px;
+    margin: auto;
+    top: 10%;
+    left: 25%;
+    text-align: center;
+}
+
+.FormInput input{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.submitButton{
+    padding-bottom: 5%;
+}
