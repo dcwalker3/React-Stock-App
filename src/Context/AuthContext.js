@@ -1,4 +1,4 @@
-import { auth } from "../Services/Firebase";
+import firebase, { auth } from "../Services/Firebase";
 
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/compat/auth'
 import React, { useContext, useState, useEffect } from "react"
@@ -37,8 +37,11 @@ export function useAuth(){
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Will have FancyBorder display all the html even though it is not passed as an argument/prop directly.
 export function AuthProvider({ children }){
-    const [currentUser, setCurrentUser] = useState();
-    const [loading, setLoading] = useState();
+    // Checks if there is a user signed in and if not then null.
+    const [currentUser, setCurrentUser] = useState(firebase.auth().currentUser | null);
+
+    // Loading gets set to true to prevent automatic kick-out to login screen.
+    const [loading, setLoading] = useState(true);
 
     function signup(email, password) {
         return auth.createUserWithEmailAndPassword(email, password)
@@ -73,7 +76,8 @@ export function AuthProvider({ children }){
         })
 
         return unsubscribe
-    }, [])
+    }, []);
+
 
     const value = {
         currentUser,

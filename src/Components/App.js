@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 
 // Custom Components.
-import {AuthProvider, useAuth} from "../Context/AuthContext";
+import {AuthProvider} from "../Context/AuthContext";
 import PrivateRoute from "./PrivateRoute";
 import Login from "./Login";
 import Signup from "./Signup";
@@ -22,8 +22,6 @@ import ForgotPassword from "./ForgotPassword";
 import Dashboard from "./Dashboard";
 
 function App() {
-
-
   return (
     <div className="App">
       <Router>

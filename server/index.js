@@ -4,6 +4,10 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 
+// CORS middleware
+const cors = require('cors')
+app.use(cors())
+
 // Enable json for req and res on server
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());

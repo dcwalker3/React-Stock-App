@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAuth} from "../Context/AuthContext";
+import Portfolio from "./Portfolio";
+import * as react from "@testing-library/react";
+import ReactDOM from "react-dom";
 
-class Dashboard extends Component {
-
-    render() {
-        return (
-            <div id={"Dashboard"}>
-                {this.props.user}
-            </div>
-        );
-    }
+function Dashboard(props) {
+    return (
+        <div id={"Dashboard"}>
+            <Portfolio/>
+        </div>
+    );
 }
 
 export default Dashboard;

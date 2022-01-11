@@ -9,7 +9,7 @@ router.get("/getAll", (req, res) => {
         .catch(error => res.status(404).json({error: error}))
 })
 
-router.get('/getByEmail', ((req, res) => {
+router.post('/getByEmail', ((req, res) => {
     // Query MongoDB based off email we receive.
     Portfolio.findOne({email: req.body.email}, function (error, results) {
         // Error Handling
@@ -18,7 +18,12 @@ router.get('/getByEmail', ((req, res) => {
         }
         // Send the portfolio.
         else {
-          res.status(200).json(results.portfolio);
+            if(results){
+                res.status(200).json(results.portfolio);
+            } else{
+                console.log(req.body.email)
+                res.status(200).send("No Portfolio Found!");
+            }
         }
     })
 
