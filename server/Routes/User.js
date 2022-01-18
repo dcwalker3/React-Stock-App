@@ -21,15 +21,17 @@ router.post('/add', (req, res) => {
 
         // If there is an error.
         if(err){
-
             // If duplicate entry error.
             // error code 11000 can be others involving key indexing, but this is the most common.
             if (err.code === 11000){
-                return res.status(500).json("User already exist!");
+                res.status(500).json("User already exist!");
             }
 
             // Other errors.
-            return res.status(404).json({error: err});
+            res.status(404).json({
+                error: err,
+                body: req.body
+            });
         }
         // No errors then all clear.
         else {

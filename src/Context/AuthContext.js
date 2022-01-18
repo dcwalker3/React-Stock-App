@@ -43,6 +43,10 @@ export function AuthProvider({ children }){
     // Loading gets set to true to prevent automatic kick-out to login screen.
     const [loading, setLoading] = useState(true);
 
+    function deleteAccount(UID) {
+        return auth.currentUser.delete();
+    }
+
     function signup(email, password) {
         return auth.createUserWithEmailAndPassword(email, password)
     }
@@ -81,6 +85,7 @@ export function AuthProvider({ children }){
 
     const value = {
         currentUser,
+        deleteAccount,
         login,
         signup,
         logout,

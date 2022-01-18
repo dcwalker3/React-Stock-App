@@ -9,10 +9,8 @@ function Portfolio(){
 
 
     useEffect(() => {
-        const portfolio = getPortfolioPositions();
-
-
-    }, [])
+        getPortfolioPositions();
+    })
 
     function getPortfolioValue(portfolio){
         Object.entries(portfolio).forEach(
@@ -41,7 +39,7 @@ function Portfolio(){
 
     return (
         <div id={"Portfolio"}>
-
+            <h1>Hello World</h1>
         </div>
     );
 };

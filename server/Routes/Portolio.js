@@ -21,7 +21,6 @@ router.post('/getByEmail', ((req, res) => {
             if(results){
                 res.status(200).json(results.portfolio);
             } else{
-                console.log(req.body.email)
                 res.status(200).send("No Portfolio Found!");
             }
         }
@@ -47,10 +46,10 @@ router.post('/add', (req, res) => {
             // error code 11000 can be others involving key indexing, but this is the most common.
             if (err.code === 11000){
                 return res.status(500).json("User already has a portfolio!");
+            } else{
+                // Other errors.
+                return res.status(404).json({error: err});
             }
-
-            // Other errors.
-            return res.status(404).json({error: err});
         }
         // No errors then all clear.
         else {
