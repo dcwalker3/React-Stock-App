@@ -1,7 +1,7 @@
 import React from 'react';
 import Portfolio from "./Portfolio";
 
-function Dashboard(props) {
+function Dashboard() {
     return (
         <div id={"Dashboard"}>
             <Portfolio/>

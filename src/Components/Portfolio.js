@@ -1,47 +1,65 @@
-import React, {useEffect, useState} from 'react';
-import axios from "axios";
-import {useAuth} from "../Context/AuthContext";
+import React, { Component } from 'react';
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import axios from 'axios';
 
-function Portfolio(){
-    const [portfolio, setPortfolio] = useState(null);
-    const [user, setUser] = useState(useAuth().currentUser);
+export default class Portfolio extends Component {
+    state = {
+        user: firebase.auth().currentUser,
+        portfolio: null
+    }
 
+    componentDidMount(){
+        this.getPortfolio();
+    }
 
+    updatePortfolio(e){
+        this.setState({portfolio: e});
+    }
 
-    useEffect(() => {
-        getPortfolioPositions();
-    })
-
-    function getPortfolioValue(portfolio){
-        Object.entries(portfolio).forEach(
-            ([key, value]) => {
-                console.log(key, value)
+    // Get portfolio positions from API.
+    getPortfolio(){
+        axios({
+            method: 'POST',
+            url: 'http://localhost:8080/portfolio/getByEmail',
+            data: {
+                email: this.state.user.email
             }
+        })
+        .then(res => {
+            if(res.data === "No Portfolio Found!"){
+                this.updatePortfolio(false)
+            } else {
+                this.updatePortfolio(res.data);
+            }
+        })
+        .catch(err => console.log(err))
+    }
+    
+    render() {
+        return( 
+            <div>
+                {
+                  this.state.portfolio ? (<ShowPortfolio portfolio={this.state.portfolio}/>) : (<AddPortfolioPrompt/>)
+                }
+            </div>
         )
     }
+}
 
-    async function getPortfolioPositions(){
-        await axios.post('http://localhost:8080/portfolio/getByEmail',
-            {
-                "email": user.email
-            }, {
-                "Content-Type": "application/json"
-            })
-            .then(async response => {
-                await setPortfolio(response.data);
-                return response.data;
-            })
-            .catch(error => {
-                console.error(error);
-            })
+export class AddPortfolioPrompt extends Component{
+    render(){
+        return(
+            <div id={"AddPortfolioPrompt"}>
+                <h1>Add Portfolio</h1>
+            </div>
+        )
     }
+}
 
 
-    return (
-        <div id={"Portfolio"}>
-            <h1>Hello World</h1>
-        </div>
-    );
-};
-
-export default Portfolio;
+export class ShowPortfolio extends Component{
+    render(){
+        return(<h1>You have A Portfolio</h1>)
+    }
+}
