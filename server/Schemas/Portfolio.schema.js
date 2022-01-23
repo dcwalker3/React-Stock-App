@@ -1,6 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const subSchema = new Schema({
+    stockSymbol: {
+        type: String,
+        required: true
+    },
+    shareAmount: {
+        type: String,
+        required: true
+    }
+})
+
 const PortfolioSchema = new Schema({
     email: {
         type: String,
@@ -17,12 +28,11 @@ const PortfolioSchema = new Schema({
      * }
      */
     portfolio: {
-        type: Map,
-        of: String,
-        required: true,
-        minLength: 1
+        type: [subSchema],
+        required: true
     }
 }, {timestamps: true});
+
 
 const Portfolio = mongoose.model('Portfolio', PortfolioSchema);
 

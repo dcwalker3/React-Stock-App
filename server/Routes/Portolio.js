@@ -21,7 +21,7 @@ router.post('/getByEmail', ((req, res) => {
             if(results){
                 res.status(200).json(results.portfolio);
             } else{
-                res.status(200).send("No Portfolio Found!");
+                res.status(205).send("No Portfolio Found!");
             }
         }
     })

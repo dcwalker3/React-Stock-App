@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import axios from 'axios';
-import { Button, FloatingLabel, Form, Row, Col, Table } from 'react-bootstrap';
 import AddPortfolio from './AddPortfolio';
+import LoadingScreen from './LoadingScreen';
 
 
 /*
@@ -13,15 +13,21 @@ import AddPortfolio from './AddPortfolio';
 export default class Portfolio extends Component {
     state = {
         user: firebase.auth().currentUser,
-        portfolio: null
+        portfolio: false,
+        loading: true
     }
 
     componentDidMount(){
         this.getPortfolio();
     }
 
-    updatePortfolio(e){
-        this.setState({portfolio: e});
+    updatePortfolio(data){
+        this.setState({portfolio: data});
+    }
+
+    updateLoading(){
+        const newState = !Boolean(this.state.loading);
+        this.setState({loading: newState})
     }
 
     // Get portfolio positions from API.
@@ -39,28 +45,57 @@ export default class Portfolio extends Component {
             } else {
                 this.updatePortfolio(res.data);
             }
+
         })
         .catch(err => console.log(err))
+        .finally(this.updateLoading());
     }
     
     render() {
-        return( 
-            <div>
-                {
-                  this.state.portfolio ? (<ShowPortfolio portfolio={this.state.portfolio}/>) : (<AddPortfolio/>)
-                }
-            </div>
-        )
+        // TODO: Fix Issue where portfolio stays equal to false for a millisecond before changing to correct part.
+        console.log(this.state.portfolio);
+        if(this.state.loading===true) return <LoadingScreen/>
+
+        return <PathHandler portfolio={this.state.portfolio}/>
+    }
+}
+
+export class PathHandler extends Component{
+    constructor(props){
+        super(props)
+        
+        this.state = {}
+    }
+    render(){
+        if(this.props.portfolio === false) {
+            return <AddPortfolio/>
+        }
+        else return <ShowPortfolio portfolio={this.props.portfolio}/>
     }
 }
 
 
 export class ShowPortfolio extends Component{
-    state = this.props;
+    constructor(props){
+        super(props);
+
+        this.state = {
+
+        }
+    }
     
     render(){
-        return({
-            
-        })
+        return(
+            <div>
+                <h1>Hello World!</h1>
+                {
+                    this.props.portfolio.map(stock => {
+                        return(
+                            <p key={stock._id}>You own {stock.shareAmount} shares of {stock.stockSymbol}</p>
+                        )
+                    })
+                }
+            </div>
+        )
     }
 }

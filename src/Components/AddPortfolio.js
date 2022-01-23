@@ -3,14 +3,15 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import axios from 'axios';
 import { Button, FloatingLabel, Form, Row, Col, Table } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 
 export default class AddPortfolio extends Component{
     constructor(props){
         super(props);
         
         this.state = {
-            positionInput: null,
-            portfolio: {}
+            email: firebase.auth().currentUser.email,
+            portfolio: []
         }
         
         this.shareNameRef = React.createRef();
@@ -24,43 +25,56 @@ export default class AddPortfolio extends Component{
     
 
     handleClick(e){
-    
+        e.preventDefault();
+        axios({
+            method: "POST",
+            url: "http://localhost:8080/portfolio/add",
+            data: {
+                email: this.state.email,
+                portfolio: this.state.portfolio
+            }
+        })
+        .then(() => {
+            this.props.useHistory.push('/')
+        })
+        .catch(error => console.log(error));
     }
 
     handleSubmit(e){
         e.preventDefault();
-        this.updatePortfolio();
-        console.log(this.state.portfolio);
+        this.updatePortfolio({
+            stockSymbol: this.shareNameRef.current.value,
+            shareAmount: this.shareAmountRef.current.value
+        });
+        this.shareAmountRef.current.value = "";
+        this.shareNameRef.current.value = "";
     }
 
-    updatePortfolio(){
-        const {portfolio} = this.state;
-        const shareAmount = this.shareAmountRef.current.value;
-        
-        const prevState = this.state.portfolio;
-        const pair = {"AAPL": shareAmount};
-        
-        const newState = {...prevState, ...pair};
-        console.log(newState);
-
-        this.setState({
-            portfolio: {...portfolio, ...pair}
-        })
+    updatePortfolio(data){
+        const updatedPortfolio = [...this.state.portfolio];
+        updatedPortfolio.push(data);
+        this.setState({portfolio: updatedPortfolio});
     }
     
     render(){
         return(
-            <div id={"AddPortfolioPrompt"} className='d-flow w-50 h-50 m-auto text-center content-center'>
+            <div id={"AddPortfolioPrompt"} className='d-flow w-75 h-50 m-auto text-center content-center'>
                 <h1>Add Portfolio</h1>
                 <Table striped bordered hover variant='dark'>
                     <tbody>
+                        <tr>
+                            <th>Stock Symbol</th>
+                            <th>Share Amount</th>
+                        </tr>
                         {
-                            this.state.portfolio ? Object.keys(this.state.portfolio).map(function(shareName, shareAmount) {
-                                return(<tr key={shareName}>
-                                        <td>{shareName}</td>
-                                        <td>{shareAmount}</td>
-                                    </tr>)
-                            }) 
+                            this.state.portfolio ? this.state.portfolio.map((stock) => {
+                                return(
+                                    <tr key={stock.stockSymbol}>
+                                        <td>{stock.stockSymbol}</td>
+                                        <td>{stock.shareAmount}</td>
+                                    </tr>
+                                );
+                            })
                             : <tr></tr>
                         }
                     </tbody>
@@ -86,7 +100,7 @@ export default class AddPortfolio extends Component{
                     </Row>
                     { this.state.positionInput }
                     <Button variant='success' type='submit' className='m-2 mt-4'>Add Position</Button>
-                    <Button variant='danger' className='m-2 mt-4'>Add Portfolio</Button>
+                    <Button variant='danger' className='m-2 mt-4' onClick={this.handleClick}>Add Portfolio</Button>
                 </Form>
             </div>
         )

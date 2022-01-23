@@ -1,5 +1,14 @@
 // Send a GET request that should return all users.
 GET http://localhost:8080/users/
 
+// GET all portfolios
+GET http://localhost:8080/portfolio/getAll HTTP/1.1
 
-GET http://localhost:8080/portfolio/getAll
+# POST add portfolio
+POST http://localhost:8080/portfolio/add HTTP/1.1
+Content-Type: "application/json"
+
+{
+    "email": "test@test.com",
+    "portfolio": [{"stockSymbol":"AAPL", "shareAmount":"4.6"},{"stockSymbol":"MSFT", "shareAmount":"5.3"}]
+}
