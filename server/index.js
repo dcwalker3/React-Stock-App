@@ -20,6 +20,17 @@ const port = process.env.PORT;
 const connection_string = process.env.DB_CONNECTION_STRING;
 const db_name = process.env.DB_NAME;
 
+// TODO: Make it so that instead of putting action inside of the url put it in the http method.
+/* Example:
+*  Turn: POST http://example.com/order/1/delete
+*  Into: DELETE http://example.com/order/1
+*  Possible solution would be conditional checking the method and then amount of parameters. So DELETE with one parameter means delete 1 but
+*  if there is POST with 15 portfolios we know to add many methods.
+*  Such as if there are multiple items items in the portfolio section then we know to add many instead of one.
+*/ 
+
+// TODO: Add the ability to check if a user is authenticated to preform actions on certain portfolios or accounts.
+// For this we could try setting a key which could be email+hash and save to db and then add to local storage and pass that in requests and only do it if it works.
 // Route imports
 const users = require('./Routes/User');
 const stocks = require('./Routes/Stocks');

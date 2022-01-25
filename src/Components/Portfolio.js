@@ -13,8 +13,7 @@ import LoadingScreen from './LoadingScreen';
 export default class Portfolio extends Component {
     state = {
         user: firebase.auth().currentUser,
-        portfolio: false,
-        loading: true
+        portfolio: null,
     }
 
     componentDidMount(){
@@ -40,7 +39,7 @@ export default class Portfolio extends Component {
             }
         })
         .then(res => {
-            if(res.data === "No Portfolio Found!"){
+            if(res.status === 205){
                 this.updatePortfolio(false)
             } else {
                 this.updatePortfolio(res.data);
@@ -52,11 +51,12 @@ export default class Portfolio extends Component {
     }
     
     render() {
-        // TODO: Fix Issue where portfolio stays equal to false for a millisecond before changing to correct part.
-        console.log(this.state.portfolio);
-        if(this.state.loading===true) return <LoadingScreen/>
-
-        return <PathHandler portfolio={this.state.portfolio}/>
+        if(this.state.portfolio !== null){
+            return <PathHandler portfolio={this.state.portfolio}/>
+        }
+        else{
+            return <></>
+        }
     }
 }
 

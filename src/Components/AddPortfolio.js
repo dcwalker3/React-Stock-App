@@ -3,7 +3,6 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import axios from 'axios';
 import { Button, FloatingLabel, Form, Row, Col, Table } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
 
 export default class AddPortfolio extends Component{
     constructor(props){
@@ -35,7 +34,7 @@ export default class AddPortfolio extends Component{
             }
         })
         .then(() => {
-            this.props.useHistory.push('/')
+            window.location.reload(false);
         })
         .catch(error => console.log(error));
     }
@@ -48,6 +47,7 @@ export default class AddPortfolio extends Component{
         });
         this.shareAmountRef.current.value = "";
         this.shareNameRef.current.value = "";
+        this.shareNameRef.focus();
     }
 
     updatePortfolio(data){

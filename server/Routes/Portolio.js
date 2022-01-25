@@ -58,4 +58,16 @@ router.post('/add', (req, res) => {
     })
 });
 
+router.delete('/delete', (req, res) => {
+    Portfolio.deleteOne({email: req.body.email}, function(err){
+        if(err){
+            res.status(404).json({error: err});
+        } else{
+            res.status(200).json(`User ${req.body.email}'s portfolio has been Deleted!`)
+        }
+
+    })
+    
+})
+
 module.exports = router;
