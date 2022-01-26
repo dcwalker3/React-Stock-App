@@ -30,7 +30,7 @@ const db_name = process.env.DB_NAME;
 */ 
 
 // TODO: Add the ability to check if a user is authenticated to preform actions on certain portfolios or accounts.
-// For this we could try setting a key which could be email+hash and save to db and then add to local storage and pass that in requests and only do it if it works.
+// For this we could try setting a key which could be email + password hash and save to db and then add to local storage and pass that in requests and only do it if it works.
 // Route imports
 const users = require('./Routes/User');
 const stocks = require('./Routes/Stocks');

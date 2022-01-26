@@ -3,11 +3,6 @@ const router = express.Router();
 
 const Portfolio  = require("../Schemas/Portfolio.schema");
 
-router.get("/getAll", (req, res) => {
-    Portfolio.find({})
-        .then(results => res.status(200).json(results))
-        .catch(error => res.status(404).json({error: error}))
-})
 
 router.post('/getByEmail', ((req, res) => {
     // Query MongoDB based off email we receive.
@@ -28,7 +23,7 @@ router.post('/getByEmail', ((req, res) => {
 
 }))
 
-router.post('/add', (req, res) => {
+router.post('/', (req, res) => {
     // Create Portfolio
     const portfolio = new Portfolio({
         // JSON we receive.
@@ -58,7 +53,7 @@ router.post('/add', (req, res) => {
     })
 });
 
-router.delete('/delete', (req, res) => {
+router.delete('/', (req, res) => {
     Portfolio.deleteOne({email: req.body.email}, function(err){
         if(err){
             res.status(404).json({error: err});
