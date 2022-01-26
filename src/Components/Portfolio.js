@@ -3,8 +3,6 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import axios from 'axios';
 import AddPortfolio from './AddPortfolio';
-import LoadingScreen from './LoadingScreen';
-
 
 /*
 * Description: The class is in charge of portfolio management

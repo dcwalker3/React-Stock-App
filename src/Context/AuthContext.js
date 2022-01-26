@@ -1,6 +1,5 @@
 import firebase, { auth } from "../Services/Firebase";
 
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/compat/auth'
 import React, { useContext, useState, useEffect } from "react"
 
 // Creates a React context which are useful when data needs to be passed to multiple components such as our firebase
