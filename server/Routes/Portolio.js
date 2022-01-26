@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Portfolio  = require("../Schemas/Portfolio.schema");
+const User = require("../Schemas/User.schema");
 
 
 router.post('/getByEmail', ((req, res) => {
@@ -48,6 +49,9 @@ router.post('/', (req, res) => {
         }
         // No errors then all clear.
         else {
+            const user = new User({
+                email: req.body.email
+            })
             return res.status(200).json(`User ${portfolio.email}'s Portfolio has been Added!`)
         }
     })

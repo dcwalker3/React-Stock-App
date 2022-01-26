@@ -6,7 +6,9 @@ const app = express();
 
 // CORS middleware
 const cors = require('cors')
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:3000'
+}));
 
 // Enable json for req and res on server
 const bodyParser = require('body-parser');
