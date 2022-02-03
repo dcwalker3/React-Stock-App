@@ -37,6 +37,7 @@ class ShowPortfolio extends Component {
                     .then(res => {
                         // res.data.data == The actual stock information. Otherwise, we get the bigger Object.
                         this.updateResults(res.data.data)
+                        this.tickerRef.current.value = "";
                     })
                     .catch(error => console.log(error))
             })
@@ -49,7 +50,6 @@ class ShowPortfolio extends Component {
 
 
     render() {
-
         return (
             <div>
                 {

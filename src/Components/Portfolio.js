@@ -26,8 +26,12 @@ export default class Portfolio extends Component {
 
     // Get portfolio positions from API.
     getPortfolio(){
+
+        // Create userID Token.
         this.state.user.getIdToken()
             .then(token => {
+
+                // Launch Request using token.
                 axios({
                     method: 'POST',
                     url: 'http://localhost:8080/portfolio/getByEmail',
@@ -53,6 +57,7 @@ export default class Portfolio extends Component {
             return <PathHandler portfolio={this.state.portfolio}/>
         }
         else{
+            // Return empty tag if there is no portfolio.
             return <></>
         }
     }

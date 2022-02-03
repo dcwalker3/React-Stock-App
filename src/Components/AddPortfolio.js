@@ -58,7 +58,7 @@ export default class AddPortfolio extends Component{
 
         // Update the portfolio so it displays on the table.
         this.updatePortfolio({
-            stockSymbol: this.shareNameRef.current.value,
+            stockSymbol: this.shareNameRef.current.value.toUpperCase(),
             shareAmount: this.shareAmountRef.current.value
         });
 
