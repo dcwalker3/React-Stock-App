@@ -12,54 +12,70 @@ export default class AddPortfolio extends Component{
             email: firebase.auth().currentUser.email,
             portfolio: []
         }
-        
+
+        // Ref Creation
         this.shareNameRef = React.createRef();
         this.shareAmountRef = React.createRef();
 
+        // Bind event handlers
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.updatePortfolio = this.updatePortfolio.bind(this);
         
     }
     
-
+    // Handles The ability to submit their portfolio.
     handleClick(e){
-        console.log("Start Submit");
+        // Prevent Default
         e.preventDefault();
-        console.log("Ready Request");
-        firebase.auth().currentUser.getIdToken(token => {
-            axios({
-                method: "POST",
-                url: "http://localhost:8080/portfolio/",
-                data: {
-                    token: token,
-                    email: this.state.email,
-                    portfolio: this.state.portfolio
-                }
-            })
-                .then(() => {
-                    console.log("Refresh Page");
-                    window.location.reload(false);
+
+        // Create a userID token for auth purpose
+        firebase.auth().currentUser.getIdToken()
+            .then(token => {
+                // Make a request to the API Server.
+                axios({
+                    method: "POST",
+                    url: "http://localhost:8080/portfolio/",
+                    data: {
+                        token: token,
+                        email: this.state.email,
+                        portfolio: this.state.portfolio
+                    }
                 })
-                .catch(error => console.log(error));
-        })
-            .then(res => console.log(res))
+                    .then(() => {
+                        // Refresh Page to display the proper data.
+                        window.location.reload(false);
+                    })
+                    .catch(error => console.error(error));
+            })
             .catch(error => console.error(error))
     }
 
+    // Handles the ability to add a stock to the portfolio.
     handleSubmit(e){
+        // Prevent Default
         e.preventDefault();
+
+        // Update the portfolio so it displays on the table.
         this.updatePortfolio({
             stockSymbol: this.shareNameRef.current.value,
             shareAmount: this.shareAmountRef.current.value
         });
+
+        // Fix the form inputs so that they look decent.
         this.shareAmountRef.current.value = "";
         this.shareNameRef.current.value = "";
+        this.shareNameRef.focus();
     }
 
     updatePortfolio(data){
+        // Create a new array containing the old state of portfolio.
         const updatedPortfolio = [...this.state.portfolio];
+
+        // Add the new data to the array.
         updatedPortfolio.push(data);
+
+        // Set the state of portfolio to the new array.
         this.setState({portfolio: updatedPortfolio});
     }
     

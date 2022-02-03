@@ -13,4 +13,6 @@
   - ### Express JS
   - ### Firebase Auth
   - ### MongoDB (Mongoose)
+  - ### React BootStrap
+  - ### Finnhub (API)
   

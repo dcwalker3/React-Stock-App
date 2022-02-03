@@ -3,6 +3,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import axios from 'axios';
 import AddPortfolio from './AddPortfolio';
+import ShowPortfolio from "./ShowPortfolio";
 
 /*
 * Description: The class is in charge of portfolio management
@@ -68,31 +69,5 @@ export class PathHandler extends Component{
             return <AddPortfolio/>
         }
         else return <ShowPortfolio portfolio={this.props.portfolio}/>
-    }
-}
-
-
-export class ShowPortfolio extends Component{
-    constructor(props){
-        super(props);
-
-        this.state = {
-
-        }
-    }
-    
-    render(){
-        return(
-            <div>
-                <h1>Hello World!</h1>
-                {
-                    this.props.portfolio.map(stock => {
-                        return(
-                            <p key={stock._id}>You own {stock.shareAmount} shares of {stock.stockSymbol}</p>
-                        )
-                    })
-                }
-            </div>
-        )
     }
 }
