@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Stock-App-API/.idea/Stock-App-API.iml" filepath="$PROJECT_DIR$/../Stock-App-API/.idea/Stock-App-API.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/crud_app.iml" filepath="$PROJECT_DIR$/.idea/crud_app.iml" />
     </modules>
   </component>

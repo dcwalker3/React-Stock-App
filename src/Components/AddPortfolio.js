@@ -24,19 +24,27 @@ export default class AddPortfolio extends Component{
     
 
     handleClick(e){
+        console.log("Start Submit");
         e.preventDefault();
-        axios({
-            method: "POST",
-            url: "http://localhost:8080/portfolio/add",
-            data: {
-                email: this.state.email,
-                portfolio: this.state.portfolio
-            }
+        console.log("Ready Request");
+        firebase.auth().currentUser.getIdToken(token => {
+            axios({
+                method: "POST",
+                url: "http://localhost:8080/portfolio/",
+                data: {
+                    token: token,
+                    email: this.state.email,
+                    portfolio: this.state.portfolio
+                }
+            })
+                .then(() => {
+                    console.log("Refresh Page");
+                    window.location.reload(false);
+                })
+                .catch(error => console.log(error));
         })
-        .then(() => {
-            window.location.reload(false);
-        })
-        .catch(error => console.log(error));
+            .then(res => console.log(res))
+            .catch(error => console.error(error))
     }
 
     handleSubmit(e){
@@ -47,7 +55,6 @@ export default class AddPortfolio extends Component{
         });
         this.shareAmountRef.current.value = "";
         this.shareNameRef.current.value = "";
-        this.shareNameRef.focus();
     }
 
     updatePortfolio(data){
@@ -98,7 +105,6 @@ export default class AddPortfolio extends Component{
                             </FloatingLabel>
                         </Col>
                     </Row>
-                    { this.state.positionInput }
                     <Button variant='success' type='submit' className='m-2 mt-4'>Add Position</Button>
                     <Button variant='danger' className='m-2 mt-4' onClick={this.handleClick}>Add Portfolio</Button>
                 </Form>

@@ -22,30 +22,29 @@ export default class Portfolio extends Component {
         this.setState({portfolio: data});
     }
 
-    updateLoading(){
-        const newState = !Boolean(this.state.loading);
-        this.setState({loading: newState})
-    }
 
     // Get portfolio positions from API.
     getPortfolio(){
-        axios({
-            method: 'POST',
-            url: 'http://localhost:8080/portfolio/getByEmail',
-            data: {
-                email: this.state.user.email
-            }
-        })
-        .then(res => {
-            if(res.status === 205){
-                this.updatePortfolio(false)
-            } else {
-                this.updatePortfolio(res.data);
-            }
+        this.state.user.getIdToken()
+            .then(token => {
+                axios({
+                    method: 'POST',
+                    url: 'http://localhost:8080/portfolio/getByEmail',
+                    data: {
+                        email: this.state.user.email,
+                        token: token
+                    }
+                })
+                .then(res => {
+                    if(res.status === 205){
+                        this.updatePortfolio(false)
+                    } else {
+                        this.updatePortfolio(res.data);
+                    }
 
+                })
+                .catch(err => console.log(err))
         })
-        .catch(err => console.log(err))
-        .finally(this.updateLoading());
     }
     
     render() {
