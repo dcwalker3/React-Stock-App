@@ -36,6 +36,7 @@ class ShowPortfolio extends Component {
                 })
                     .then(res => {
                         // res.data.data == The actual stock information. Otherwise, we get the bigger Object.
+                        console.log(res.data.data)
                         this.updateResults(res.data.data)
                         this.tickerRef.current.value = "";
                     })
@@ -71,12 +72,12 @@ class ShowPortfolio extends Component {
                     // If results is not null then print data. Otherwise, say no quote.
                     this.state.results ? (
                         <div className={"StockData"}>
-                            <div className={"currentPrice"}>Current Price: ${this.state.results["c"]}</div>
-                            <div className={"change"}>Daily Change: ${this.state.results["d"]}</div>
-                            <div className={"percentChange"}>Daily Percent Change: {this.state.results["dp"]}%</div>
-                            <div className={"high"}>Daily High: ${this.state.results["h"]}</div>
-                            <div className={"low"}>Daily Low: ${this.state.results["l"]}</div>
-                            <div className={"open"}>Open Price: ${this.state.results["o"]}</div>
+                            <div className={"currentPrice"}>Current Price: ${this.state.results.price}</div>
+                            <div className={"change"}>Daily Change: ${this.state.results.change}</div>
+                            <div className={"percentChange"}>Daily Percent Change: {this.state.results.dailyChange}%</div>
+                            <div className={"high"}>Daily High: ${this.state.results.high}</div>
+                            <div className={"low"}>Daily Low: ${this.state.results.low}</div>
+                            <div className={"open"}>Open Price: ${this.state.results.open}</div>
                         </div>
                     ) : (<h3>No Quote Available</h3>)
                 }
